@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/News-for-free/static/css/main.d65cbbca.css",
+    "main.js": "/News-for-free/static/js/main.c303d6c1.js",
+    "static/js/787.4c026eef.chunk.js": "/News-for-free/static/js/787.4c026eef.chunk.js",
+    "static/media/Iphone-spinner-2.gif": "/News-for-free/static/media/Iphone-spinner-2.d3fbaf2b81fd92c49692.gif",
+    "index.html": "/News-for-free/index.html",
+    "main.d65cbbca.css.map": "/News-for-free/static/css/main.d65cbbca.css.map",
+    "main.c303d6c1.js.map": "/News-for-free/static/js/main.c303d6c1.js.map",
+    "787.4c026eef.chunk.js.map": "/News-for-free/static/js/787.4c026eef.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d65cbbca.css",
+    "static/js/main.c303d6c1.js"
+  ]
+}
