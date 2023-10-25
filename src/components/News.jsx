@@ -1,4 +1,3 @@
-// import React, { Component } from 'react'
 import React, {useEffect, useState} from 'react'
 import NewsItem from './NewsItem'
 import Spinner from './Spinner';
@@ -7,59 +6,78 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 const News = (props) => {
-
-  const [articles, setArticles] = useState([])
+  const { setProgress, country, category, apiKey, pageSize, setArticles, articles} = props;
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [totalResults, setTotalResults] = useState(0)
-
-
 
     const capitalizeFirstLetter=(string)=> {
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
   const updateNews = async()=>{
-    props.setProgress(10);
-    let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
-    setLoading(true)
-    props.setProgress(20);
-    let data = await fetch(url);
-    props.setProgress(50);
-    let parsedData = await data.json();
-    props.setProgress(70);
-    setArticles( parsedData.articles)
-    setTotalResults(parsedData.totalResults)
-    setLoading(false)
+    try {
+      setProgress(10);
+      
+      let url = window.location.pathname === "/search" && localStorage.getItem("search")?
+        `https://api.worldnewsapi.com/search-news?api-key=${apiKey}&text=${localStorage.getItem("search")}&source-countries=${country}&number=${pageSize}&offset=${pageSize*(page-1)}`    
+      : `https://api.worldnewsapi.com/search-news?api-key=${apiKey}&text=india%20${category}%20news&source-countries=${country}&number=${pageSize}&offset=${pageSize*(page-1)}`;
 
-    props.setProgress(100);
+      setLoading(true)
+      setProgress(20);
+      let data = await fetch(url);
+      setProgress(50);
+      let parsedData = await data.json();
+      setProgress(70);
+      setArticles(parsedData.news)
+      setTotalResults(parsedData.available)
+      setLoading(false)
+
+      setProgress(100);
+      
+    } catch (error) {
+      console("failed to fetch ",error)
+      alert(error.message)
+    }
+    
   }
 
   useEffect(() => {
-    document.title = `News for free - ${props.category==="general"?"News Monkey Get Daily News":capitalizeFirstLetter(props.category)}`
+    document.title = `News for free - ${category==="general"?"News Monkey Get Daily News":capitalizeFirstLetter(category)}`
     updateNews();
-    // eslint-disable-next-line
   }, [])
 
 
-
   const fetchMoreData = async() => {
-    let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
-    setPage(page+1);
-    setLoading(true);
-    let data = await fetch(url);
-    let parsedData = await data.json();
+    try{
+      let url = window.location.pathname === "/search" && localStorage.getItem("search")?
+        `https://api.worldnewsapi.com/search-news?api-key=${apiKey}&text=${localStorage.getItem("search")}&source-countries=${country}&number=${pageSize}&offset=${pageSize*(page-1)}`      
+      : `https://api.worldnewsapi.com/search-news?api-key=${apiKey}&text=india%20${category}%20news&source-countries=${country}&number=${pageSize}&offset=${pageSize*(page-1)}`;
+      
+      setPage(page+1);
+      setLoading(true);
 
-    setArticles(articles.concat(parsedData.articles))
-    setTotalResults(parsedData.totalResults)
-    setLoading(false)
+      let data = await fetch(url);
+      let parsedData = await data.json();
+  
+      setArticles(articles.concat(parsedData.news))
+      setTotalResults( parsedData.available)
+      setLoading(false)
+    }catch(error){
+      console("failed to fetch ",error)
+      alert(error.message)
+    }
   };
 
+  const SourceName = (url)=>{
+    const urlObj = new URL(url);
+    return urlObj.hostname
+  }
 
     return (
       <>
         <div className="container my-2">
-            <h1 className="text-center" style={{margin:'35px 0px',marginTop:'90px'}}>Top {props.category==="general"?"":capitalizeFirstLetter(props.category)} Headlines</h1>
+            <h1 className="text-center" style={{margin:'35px 0px',marginTop:'90px'}}>Top {category==="general"?"":capitalizeFirstLetter(category)} News Headlines</h1>
             {loading && <Spinner/>}
 
             <InfiniteScroll
@@ -71,8 +89,9 @@ const News = (props) => {
               <div className="container">
                 <div className="row">
                   {articles.map((element)=>{
-                    return <div className="col mod-3" style={{display: 'flex',justifyContent: 'center'}} key={element.url}>
-                              <NewsItem  title={element.title} description={element.description?element.description.slice(0,88):""} imgurl={element.urlToImage} newsUrl={element.url} credit={element.author?element.author:"Unknown"} channel={element.source.name} date={element.publishedAt}/>
+                    const{title, url, author, text, image, publish_date} = element;
+                    return <div className="col mod-3" style={{display: 'flex',justifyContent: 'center'}} key={url}>
+                              <NewsItem  title={title} description={(text) ?(text).slice(0,88):""} imgurl={(image)} newsUrl={url} credit={author?author:"Unknown"} channel={SourceName(url) || "WorldNews"} date={publish_date}/>
                           </div>
                   })}
                 </div>

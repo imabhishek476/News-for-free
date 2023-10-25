@@ -8,7 +8,7 @@ const NewsItem = (props) => {
           <div className="d-flex position-absolute end-0">
             <span className="badge rounded-pill bg-danger" style={{left:"90%",}}>{channel}</span>
           </div>
-            <img src={imgurl?imgurl:"https://www.brainstormcomics.com/wp-content/uploads/2019/05/breakingnews.jpg"} className="card-img-top" height="225" alt="..."/>
+            <img src={imgurl==="https://s0.wp.com/i/blank.jpg"?"https://www.brainstormcomics.com/wp-content/uploads/2019/05/breakingnews.jpg":imgurl} className="card-img-top" height="225" alt="..."/>
             <div className="card-body">
                 <h5 className="card-title">{title}</h5>
                 <p className="card-text">{description}...</p>
