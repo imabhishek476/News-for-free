@@ -20,8 +20,8 @@ const News = (props) => {
       setProgress(10);
       
       let url = window.location.pathname === "/search" && localStorage.getItem("search")?
-        `https://api.worldnewsapi.com/search-news?api-key=${apiKey}&text=${localStorage.getItem("search")}&source-countries=${country}&number=${pageSize}&offset=${pageSize*(page-1)}`    
-      : `https://api.worldnewsapi.com/search-news?api-key=${apiKey}&text=india%20${category}%20news&source-countries=${country}&number=${pageSize}&offset=${pageSize*(page-1)}`;
+        `https://api.worldnewsapi.com/search-news?api-key=${apiKey}&text=${localStorage.getItem("search")}&source-countries=${country}&number=${pageSize}&offset=${pageSize*(page)}`    
+      : `https://api.worldnewsapi.com/search-news?api-key=${apiKey}&text=india%20${category}%20news&source-countries=${country}&number=${pageSize}&offset=${pageSize*(page)}`;
 
       setLoading(true)
       setProgress(20);
