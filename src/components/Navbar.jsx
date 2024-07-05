@@ -13,7 +13,7 @@ const Navbar=(props)=>{
       <>
         <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
-                <Link className="navbar-brand pt-0 pb-0" to="/"><img src="https://i.ibb.co/3BgmtqH/download.png" alt="" srcSet="" height={50} width={150}/> </Link>
+                <Link className="navbar-brand pt-0 pb-0" to="/"><img src="https://raw.githubusercontent.com/imabhishek476/images/main/download.png" alt="" srcSet="" height={50} width={150}/> </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
                 </button>
