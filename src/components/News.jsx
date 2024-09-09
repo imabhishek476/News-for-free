@@ -93,7 +93,7 @@ const News = (props) => {
             >
               <div className="container">
                 <div className="row">
-                  {articles.length > 0 && articles.map((element)=>{
+                  {articles?.length > 0 && articles.map((element)=>{
                     const{title, url, author, text, image, publish_date} = element;
                     return <div className="col mod-3" style={{display: 'flex',justifyContent: 'center'}} key={url}>
                               <NewsItem  title={title || "News Title"} description={(text) ?(text).slice(0,88):"News Description"} imgurl={image || "https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/1200px-Flag_of_India.svg.png"} newsUrl={url} credit={author?author:"Unknown"} channel={SourceName(url) || "WorldNews"} date={publish_date}/>
